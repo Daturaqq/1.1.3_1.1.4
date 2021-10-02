@@ -31,31 +31,25 @@ public class Util {
         return connection;
     }
 
-
     // Hibernate
-    private static final SessionFactory sessionFactory = createSessionFactory();
-
-    public static SessionFactory createSessionFactory() {
+    public static Session getSessionHibernate() {
         SessionFactory sessionFactory = null;
         try {
-        Configuration configuration = new Configuration()
-                .setProperty("hibernate.connection.driver_class", DRIVER)
-                .setProperty("hibernate.connection.url", URL)
-                .setProperty("hibernate.connection.username", USERNAME)
-                .setProperty("hibernate.connection.password", PASSWORD)
-                .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect")
-                .setProperty("hibernate.show_sql", "true")
-                .setProperty("hibernate.hbm2ddl_auto", "update")
-                .setProperty("hibernate.current_session_context_class", "thread")
-                .addAnnotatedClass(User.class);
+            Configuration configuration = new Configuration()
+                    .setProperty("hibernate.connection.driver_class", DRIVER)
+                    .setProperty("hibernate.connection.url", URL)
+                    .setProperty("hibernate.connection.username", USERNAME)
+                    .setProperty("hibernate.connection.password", PASSWORD)
+                    .setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect")
+                    .setProperty("hibernate.show_sql", "true")
+                    .setProperty("hibernate.hbm2ddl_auto", "update")
+                    .setProperty("hibernate.current_session_context_class", "thread")
+                    .addAnnotatedClass(User.class);
             StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
             sessionFactory = configuration.buildSessionFactory(builder.build());
         } catch (HibernateException e) {
             e.printStackTrace();
         }
-        return sessionFactory;
-    }
-    public static Session getSessionHibernate() {
         return sessionFactory.openSession();
     }
 }
