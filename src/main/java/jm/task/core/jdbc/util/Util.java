@@ -19,18 +19,15 @@ public class Util {
     private static final String PASSWORD = "root";
 
     // JDBC
-    private static final Connection connection = createConnectionJDBC();
-
-    private static Connection createConnectionJDBC() {
+    public static Connection getConnectionJDBC() {
         Connection connection = null;
         try {
+            Class.forName(DRIVER);
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-        } catch (SQLException e) {
+            connection.setAutoCommit(false);
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return connection;
-    }
-    public static Connection getConnectionJDBC() {
         return connection;
     }
 
